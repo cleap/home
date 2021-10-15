@@ -1,5 +1,9 @@
-" "Fish doesn't play all that well with others" - Jon Gjengset
-set shell=/bin/bash
+if has("win32") || has("win16")
+	" Dude idk
+else
+	set shell=/bin/bash
+endif
+
 let mapleader = "\<Space>"
 
 " =============================================================================
@@ -8,22 +12,39 @@ let mapleader = "\<Space>"
 call plug#begin()
 
 " GUI enhancements
-Plug 'itchyny/lightline.vim'
-Plug 'w0rp/ale'
-Plug 'machakann/vim-highlightedyank'
+Plug 'itchyny/lightline.vim' " enhances the NORMAL/INSERT line thing
+Plug 'machakann/vim-highlightedyank' " highlights what you are yanking
+Plug 'sonph/onehalf', { 'rtp': 'vim' } " onehalf color scheme
+
+" Writeroom
+Plug 'junegunn/goyo.vim'
+
+" File Explorer
+Plug 'scrooloose/nerdtree' " File system sidebar
+Plug 'ryanoasis/vim-devicons' " Adds icons to nerdtree
 
 " Fuzzy finder
-Plug 'airblade/vim-rooter'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-rooter' " Roots searching at project root
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " Fuzzy finding goodness
 
 " Semantic language support
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" Syntactic language support
+Plug 'neoclide/coc.nvim', {'branch': 'release'} " language server
+let g:coc_global_extensions = ['coc-python', 'coc-json']
+" Plug 'w0rp/ale' " I'm not sure what this does that coc doesn't :/
 Plug 'rust-lang/rust.vim'
+Plug 'habamax/vim-godot'
 
 call plug#end()
+
+" Theme settings
+syntax on
+set cursorline
+colorscheme onehalfdark
+if exists('+termguicolors')
+	let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+	let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+	set termguicolors
+endif
 
 " Plugin settings
 let g:rustfmt_autosave = 1
@@ -38,6 +59,7 @@ let g:lightline = {
 	\	'filename': 'LightlineFilename',
 	\	'cocstatus': 'coc#status'
 	\ },
+	\ 'colorscheme': 'onehalfdark',
 	\ }
 function! LightlineFilename()
 	return expand('%:t') !=# '' ? @% : '[No Name]'
@@ -45,6 +67,7 @@ endfunction
 
 " Use autocmd to force lightline update
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
+
 
 " Use <tab> for trigger completion and navigate to the next complete item
 " NOTE: the <tab> could be remmapped by another plugin, use 
@@ -62,6 +85,16 @@ inoremap <silent><expr> <Tab>
 " Use Shift + Tab to navigate the list backward
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
+" NERDTree
+let g:NERDTreeShowHidden = 1
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeIgnore = []
+let g:NERDTreeStatusline = ''
+" Automaticaly close nvim if NERDTree is only thing left open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" Toggle
+nnoremap <silent> <C-b> :NERDTreeToggle<CR>
+
 " from http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
 if executable('ag')
 	set grepprg=ag\ --nogroup\ --nocolor
@@ -70,6 +103,23 @@ if executable('rg')
 	set grepprg=rg\ --no-heading\ --vimgrep
 	set grepformat=%f:%l:%c:%m
 endif
+
+" use alt+hjkl to move between split/vsplit panels
+tnoremap <A-h> <C-\><C-n><C-w>h
+tnoremap <A-j> <C-\><C-n><C-w>j
+tnoremap <A-k> <C-\><C-n><C-w>k
+tnoremap <A-l> <C-\><C-n><C-w>l
+nnoremap <A-h> <C-w>h
+nnoremap <A-j> <C-w>j
+nnoremap <A-k> <C-w>k
+nnoremap <A-l> <C-w>l
+
+nnoremap <C-p> :FZF<CR>
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-h': 'split',
+  \ 'ctrl-s': 'vsplit'
+  \}
 
 " =============================================================================
 " # Editor settings
@@ -88,9 +138,9 @@ set printencoding=utf-8
 set printoptions=paper:letter
 
 " use wide tabs
-set shiftwidth=8
-set softtabstop=8
 set tabstop=8
+set softtabstop=8
+set shiftwidth=8
 set noexpandtab
 
 " =============================================================================
@@ -114,6 +164,5 @@ map H ^
 map L $
 
 " Open hotkeys
-map <C-p> :Files<CR>
-nmap <leader>; :Buffers<CR>
-
+"map <C-p> :Files<CR>
+nmap <leader>; :buffers<CR>
