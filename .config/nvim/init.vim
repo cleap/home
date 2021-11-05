@@ -29,7 +29,6 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " Fuzzy finding goodness
 
 " Semantic language support
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " language server
-let g:coc_global_extensions = ['coc-python', 'coc-json']
 " Plug 'w0rp/ale' " I'm not sure what this does that coc doesn't :/
 Plug 'rust-lang/rust.vim'
 Plug 'habamax/vim-godot'
@@ -156,6 +155,9 @@ set mouse=a " enable mouse usage (all modes) in terminals
 set cmdheight=2
 set updatetime=300
 
+" show hidden characters
+set listchars=nbsp:¬,extends:»,precedes:«,trail:•
+
 " =============================================================================
 " # Keyboard settings
 " =============================================================================
@@ -166,3 +168,4 @@ map L $
 " Open hotkeys
 "map <C-p> :Files<CR>
 nmap <leader>; :buffers<CR>
+nmap <leader>v <C-v>

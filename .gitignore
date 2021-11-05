@@ -1,0 +1,8 @@
+# Ignore everything
+*
+
+# These ones are cool, tho
+!.gitignore
+!README.md
+!./config/nvim/init.vim
+!.tmux.conf
