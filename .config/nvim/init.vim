@@ -92,7 +92,7 @@ let g:NERDTreeStatusline = ''
 " Automaticaly close nvim if NERDTree is only thing left open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " Toggle
-nnoremap <silent> <C-b> :NERDTreeToggle<CR>
+nnoremap <silent> <leader>b :NERDTreeToggle<CR>
 
 " from http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
 if executable('ag')
@@ -142,6 +142,16 @@ set softtabstop=8
 set shiftwidth=8
 set noexpandtab
 
+autocmd BufRead,BufNewFile *.md setlocal tabstop=4
+autocmd BufRead,BufNewFile *.md setlocal softtabstop=4
+autocmd BufRead,BufNewFile *.md setlocal shiftwidth=4
+autocmd BufRead,BufNewFile *.md setlocal expandtab
+
+autocmd BufRead,BufNewFile *.hs setlocal tabstop=4
+autocmd BufRead,BufNewFile *.hs setlocal softtabstop=4
+autocmd BufRead,BufNewFile *.hs setlocal shiftwidth=4
+autocmd BufRead,BufNewFile *.hs setlocal expandtab
+
 " =============================================================================
 " # GUI settings
 " =============================================================================
@@ -154,9 +164,9 @@ set mouse=a " enable mouse usage (all modes) in terminals
 " completion
 set cmdheight=2
 set updatetime=300
-
 " show hidden characters
-set listchars=nbsp:¬,extends:»,precedes:«,trail:•
+	set listchars=tab:ﲒ\ ,space:·,nbsp:¬,extends:»,precedes:«,trail:•
+set list
 
 " =============================================================================
 " # Keyboard settings
