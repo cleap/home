@@ -1,3 +1,6 @@
+" ==============================================================================
+" # Pre-processing
+" ==============================================================================
 if has("win32") || has("win16")
 	" Dude idk
 else
@@ -6,15 +9,16 @@ endif
 
 let mapleader = "\<Space>"
 
-" =============================================================================
+
+" ==============================================================================
 " # PLUGINS
-" =============================================================================
+" ==============================================================================
 call plug#begin()
 
 " GUI enhancements
+Plug 'sonph/onehalf', { 'rtp': 'vim' } " onehalf color scheme
 Plug 'itchyny/lightline.vim' " enhances the NORMAL/INSERT line thing
 Plug 'machakann/vim-highlightedyank' " highlights what you are yanking
-Plug 'sonph/onehalf', { 'rtp': 'vim' } " onehalf color scheme
 
 " Writeroom
 Plug 'junegunn/goyo.vim'
@@ -22,20 +26,19 @@ Plug 'junegunn/goyo.vim'
 " File Explorer
 Plug 'scrooloose/nerdtree' " File system sidebar
 Plug 'ryanoasis/vim-devicons' " Adds icons to nerdtree
-
-" Fuzzy finder
 Plug 'airblade/vim-rooter' " Roots searching at project root
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " Fuzzy finding goodness
 
 " Semantic language support
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " language server
-" Plug 'w0rp/ale' " I'm not sure what this does that coc doesn't :/
 Plug 'rust-lang/rust.vim'
 Plug 'habamax/vim-godot'
 
 call plug#end()
 
-" Theme settings
+
+" ## Onehalf Configuration
+" ==============================================================================
 syntax on
 set cursorline
 colorscheme onehalfdark
@@ -45,9 +48,9 @@ if exists('+termguicolors')
 	set termguicolors
 endif
 
-" Plugin settings
-let g:rustfmt_autosave = 1
 
+" ## Lightline Configuration
+" ==============================================================================
 " from https://github.com/jonhoo/configs/blob/master/editor/.config/nvim/init.vim
 let g:lightline = {
 	\ 'active': {
@@ -63,28 +66,12 @@ let g:lightline = {
 function! LightlineFilename()
 	return expand('%:t') !=# '' ? @% : '[No Name]'
 endfunction
-
 " Use autocmd to force lightline update
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
 
-" Use <tab> for trigger completion and navigate to the next complete item
-" NOTE: the <tab> could be remmapped by another plugin, use 
-" ':verbose imap <tab>' to check if it's mapped as expected 
-function! s:check_back_space() abort
-	let col = col('.') - 1
-	return !col || getline('.')[col - 1] =~ '\s'
-endfunction
-
-inoremap <silent><expr> <Tab>
-	\ pumvisible() ? "\<C-n>" :
-	\ <SID>check_back_space() ? "\<Tab>" :
-	\ coc#refresh()
-
-" Use Shift + Tab to navigate the list backward
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" NERDTree
+" ## NERDTree Configuration
+" ==============================================================================
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeIgnore = []
@@ -94,6 +81,39 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " Toggle
 nnoremap <silent> <leader>b :NERDTreeToggle<CR>
 
+
+" ## Fuzzy Finder Configuration
+" ==============================================================================
+nnoremap <C-p> :FZF<CR>
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-h': 'split',
+  \ 'ctrl-s': 'vsplit'
+  \}
+
+
+" ## Coc Configuration
+" ==============================================================================
+" Use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1] =~ '\s'
+endfunction
+inoremap <silent><expr> <Tab>
+	\ pumvisible() ? "\<C-n>" :
+	\ <SID>check_back_space() ? "\<Tab>" :
+	\ coc#refresh()
+" Use Shift + Tab to navigate the list backward
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+
+" ## Rust Configuration
+" ==============================================================================
+let g:rustfmt_autosave = 1
+
+
+" ## Ripgrep Configuration
+" ==============================================================================
 " from http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
 if executable('ag')
 	set grepprg=ag\ --nogroup\ --nocolor
@@ -103,26 +123,10 @@ if executable('rg')
 	set grepformat=%f:%l:%c:%m
 endif
 
-" use alt+hjkl to move between split/vsplit panels
-tnoremap <A-h> <C-\><C-n><C-w>h
-tnoremap <A-j> <C-\><C-n><C-w>j
-tnoremap <A-k> <C-\><C-n><C-w>k
-tnoremap <A-l> <C-\><C-n><C-w>l
-nnoremap <A-h> <C-w>h
-nnoremap <A-j> <C-w>j
-nnoremap <A-k> <C-w>k
-nnoremap <A-l> <C-w>l
 
-nnoremap <C-p> :FZF<CR>
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-h': 'split',
-  \ 'ctrl-s': 'vsplit'
-  \}
-
-" =============================================================================
+" ==============================================================================
 " # Editor settings
-" =============================================================================
+" ==============================================================================
 set autoindent
 set timeoutlen=300 " http://stackoverflow.com/questions/2158516/delay-before-o-opens-a-new-line
 set encoding=utf-8
@@ -152,9 +156,10 @@ autocmd BufRead,BufNewFile *.hs setlocal softtabstop=4
 autocmd BufRead,BufNewFile *.hs setlocal shiftwidth=4
 autocmd BufRead,BufNewFile *.hs setlocal expandtab
 
-" =============================================================================
+
+" ==============================================================================
 " # GUI settings
-" =============================================================================
+" ==============================================================================
 set lazyredraw
 set relativenumber " show relative line numbers
 set number " also show absolute line number for current line
@@ -164,13 +169,25 @@ set mouse=a " enable mouse usage (all modes) in terminals
 " completion
 set cmdheight=2
 set updatetime=300
+
 " show hidden characters
-	set listchars=tab:ﲒ\ ,space:·,nbsp:¬,extends:»,precedes:«,trail:•
+set listchars=tab:ﲒ\ ,space:·,nbsp:¬,extends:»,precedes:«,trail:•
 set list
 
-" =============================================================================
-" # Keyboard settings
-" =============================================================================
+
+" ==============================================================================
+" # Keyboard Mappings
+" ==============================================================================
+" use alt+hjkl to move between split/vsplit panels
+tnoremap <A-h> <C-\><C-n><C-w>h
+tnoremap <A-j> <C-\><C-n><C-w>j
+tnoremap <A-k> <C-\><C-n><C-w>k
+tnoremap <A-l> <C-\><C-n><C-w>l
+nnoremap <A-h> <C-w>h
+nnoremap <A-j> <C-w>j
+nnoremap <A-k> <C-w>k
+nnoremap <A-l> <C-w>l
+
 " Jump to start and end of line using the home row keys
 map H ^
 map L $
