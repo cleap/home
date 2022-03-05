@@ -110,10 +110,11 @@ autocmd BufRead,BufNewFile *.md setlocal softtabstop=4
 autocmd BufRead,BufNewFile *.md setlocal shiftwidth=4
 autocmd BufRead,BufNewFile *.md setlocal expandtab
 
-autocmd BufRead,BufNewFile *.hs setlocal tabstop=4
-autocmd BufRead,BufNewFile *.hs setlocal softtabstop=4
-autocmd BufRead,BufNewFile *.hs setlocal shiftwidth=4
+autocmd BufRead,BufNewFile *.hs setlocal tabstop=2
+autocmd BufRead,BufNewFile *.hs setlocal softtabstop=2
+autocmd BufRead,BufNewFile *.hs setlocal shiftwidth=2
 autocmd BufRead,BufNewFile *.hs setlocal expandtab
+autocmd BufRead,BufNewFile *.hs setlocal makeprg=cabal\ v2-build
 
 set lazyredraw
 set relativenumber " show relative line numbers

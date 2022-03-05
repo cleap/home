@@ -12,5 +12,3 @@
 
 -- Use :rr to reload this file.
 :def! rr \_ -> return ":script ~/.ghci"
--- Turn on output of types.  This line should be last.
-:set +t
