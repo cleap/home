@@ -15,7 +15,8 @@ let mapleader = "\<Space>"
 call plug#begin()
 
 	" GUI enhancements
-	Plug 'sonph/onehalf', { 'rtp': 'vim' } " onehalf color scheme
+"	Plug 'sonph/onehalf', { 'rtp': 'vim' } " onehalf color scheme
+	Plug 'sainnhe/everforest'
 	Plug 'itchyny/lightline.vim' " enhances the NORMAL/INSERT line thing
 	Plug 'machakann/vim-highlightedyank' " highlights what you are yanking
 
@@ -129,25 +130,51 @@ set updatetime=300
 set listchars=tab:ﲒ\ ,space:·,nbsp:¬,extends:»,precedes:«,trail:•
 set list
 
-" Jump to start and end of line using the home row keys
-map H ^
-map L $
+" move lines up and down
+nnoremap <leader>- ddp
+nnoremap <leader>_ ddkP
+
+" easy vimrc editing
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" vimrc line commenting
+nnoremap <leader>/ 0i" <esc>j0
+
+" navigation bindings
+nnoremap H ^
+nnoremap L $
+nnoremap <leader>h <c-w>h
+nnoremap <leader>j <c-w>j
+nnoremap <leader>k <c-w>k
+nnoremap <leader>l <c-w>l
+nnoremap <Up>    <nop>
+nnoremap <Down>  <nop>
+nnoremap <Left>  <nop>
+nnoremap <Right> <nop>
+inoremap <Up>    <nop>
+inoremap <Down>  <nop>
+inoremap <Left>  <nop>
+inoremap <Right> <nop>
+
+iabbrev @@ cleapdev@gmail.com
 
 " ==============================================================================
 " ## PLUGINS
 
-" ## Onehalf Configuration
+" ## colorscheme Configuration
 syntax on
-set cursorline
-colorscheme onehalfdark
 if exists('+termguicolors')
-	let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-	let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 	set termguicolors
 endif
+set cursorline
+set background=dark
+
+let g:everforest_background = 'medium'
+let g:everforest_better_performance = 1
+colorscheme everforest
 
 " ## Lightline Configuration
-" from https://github.com/jonhoo/configs/blob/master/editor/.config/nvim/init.vim
 let g:lightline = {
 	\ 'active': {
 	\	'left': [ [ 'mode', 'paste' ],
@@ -157,7 +184,7 @@ let g:lightline = {
 	\	'filename': 'LightlineFilename',
 	\	'cocstatus': 'coc#status'
 	\ },
-	\ 'colorscheme': 'onehalfdark',
+	\ 'colorscheme': 'everforest',
 	\ }
 function! LightlineFilename()
 	return expand('%:t') !=# '' ? @% : '[No Name]'
@@ -231,14 +258,3 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " ## Rust Configuration
 let g:rustfmt_autosave = 1
 
-" ## Ripgrep Configuration
-" from http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
-" if executable('ag')
-" 	set grepprg=ag\ --nogroup\ --nocolor
-" endif
-" if executable('rg')
-" 	set grepprg=rg\ --no-heading\ --vimgrep
-" 	set grepformat=%f:%l:%c:%m
-" endif
-
-" ==============================================================================
