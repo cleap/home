@@ -1,9 +1,13 @@
-# Ignore everything
+# Ignore everything, except subdirectories
 *
 
 # These ones are cool, tho
 !.gitignore
 !README.md
-!./config/nvim/init.vim
 !.tmux.conf
 !.ghci
+!.config/
+!.config/nvim/
+!.config/nvim/init.vim
+!.config/nvim/snippets/
+!.config/nvim/snippets/**

@@ -1,4 +1,5 @@
 " Plugin-free magic from https://github.com/changemewtf/no_plugins
+
 " Never touch another dev's vim
 
 " ## Pre-processing
@@ -15,7 +16,6 @@ let mapleader = "\<Space>"
 call plug#begin()
 
 	" GUI enhancements
-"	Plug 'sonph/onehalf', { 'rtp': 'vim' } " onehalf color scheme
 	Plug 'sainnhe/everforest'
 	Plug 'itchyny/lightline.vim' " enhances the NORMAL/INSERT line thing
 	Plug 'machakann/vim-highlightedyank' " highlights what you are yanking
@@ -106,16 +106,41 @@ set softtabstop=8
 set shiftwidth=8
 set noexpandtab
 
-autocmd BufRead,BufNewFile *.md setlocal tabstop=4
-autocmd BufRead,BufNewFile *.md setlocal softtabstop=4
-autocmd BufRead,BufNewFile *.md setlocal shiftwidth=4
-autocmd BufRead,BufNewFile *.md setlocal expandtab
+" TODO: use single autocmd
+augroup filetype_markdown
+	autocmd!
+	autocmd FileType markdown setlocal tabstop=4
+	autocmd FileType markdown setlocal softtabstop=4
+	autocmd FileType markdown setlocal shiftwidth=4
+	autocmd FileType markdown setlocal expandtab
+augroup END
 
-autocmd BufRead,BufNewFile *.hs setlocal tabstop=2
-autocmd BufRead,BufNewFile *.hs setlocal softtabstop=2
-autocmd BufRead,BufNewFile *.hs setlocal shiftwidth=2
-autocmd BufRead,BufNewFile *.hs setlocal expandtab
-autocmd BufRead,BufNewFile *.hs setlocal makeprg=cabal\ v2-build
+augroup filetype_haskell
+	autocmd!
+	autocmd FileType haskell setlocal tabstop=2
+	autocmd FileType haskell setlocal softtabstop=2
+	autocmd FileType haskell setlocal shiftwidth=2
+	autocmd FileType haskell setlocal expandtab
+	autocmd FileType haskell setlocal makeprg=cabal\ v2-build
+augroup END
+
+augroup filetype_python
+	autocmd!
+	autocmd FileType python nnoremap <buffer> <leader>/ 0i# <esc>j0
+	autocmd FileType python iabbrev <buffer> classic class :<cr>def __init__(self):<cr>pass<cr><esc>kkk$i
+	autocmd FileType python iabbrev <buffer> unittest <esc>:read $HOME/.config/nvim/snippets/unittest_snip.py<cr>jjeea
+	autocmd FileType python iabbrev <buffer> class BOY YOU MUST BE OUT OF YOUR GODDAMN MIND
+augroup END
+
+augroup filetype_vim
+	autocmd!
+	autocmd FileType vim nnoremap <buffer> <leader>/ 0i" <esc>j0
+augroup END
+
+augroup filetye_rust
+	autocmd!
+	autocmd FileType rust nnoremap <buffer> <leader>/ 0i// <esc>j0
+augroup END
 
 set lazyredraw
 set relativenumber " show relative line numbers
@@ -138,9 +163,6 @@ nnoremap <leader>_ ddkP
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
-" vimrc line commenting
-nnoremap <leader>/ 0i" <esc>j0
-
 " navigation bindings
 nnoremap H ^
 nnoremap L $
@@ -158,6 +180,7 @@ inoremap <Left>  <nop>
 inoremap <Right> <nop>
 
 iabbrev @@ cleapdev@gmail.com
+
 
 " ==============================================================================
 " ## PLUGINS
@@ -203,22 +226,8 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " Toggle
 nnoremap <silent> <leader>b :NERDTreeToggle<CR>
 
-
-" ## Fuzzy Finder Configuration
-" nnoremap <C-p> :FZF<CR>
-" let g:fzf_action = {
-"   \ 'ctrl-t': 'tab split',
-"   \ 'ctrl-h': 'split',
-"   \ 'ctrl-s': 'vsplit'
-"   \}
-
-
 " ## Coc Configuration
-
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
 if has("nvim-0.5.0") || has("patch-8.1.1564")
-" Recently vim can merge signcolumn and number column into one
   set signcolumn=number
 else
   set signcolumn=yes
@@ -237,10 +246,6 @@ function! s:check_back_space() abort
 endfunction
 
 " Use K to show documentation in preview window.
-function! s:check_back_space() abort
-	let col = col('.') - 1
-	return !col || getline('.')[col - 1] =~ '\s'
-endfunction
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -252,9 +257,5 @@ function! s:show_documentation()
   endif
 endfunction
 
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
 " ## Rust Configuration
 let g:rustfmt_autosave = 1
-
