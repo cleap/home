@@ -84,6 +84,27 @@ inoremap <Left>  <nop>
 inoremap <Right> <nop>
 nnoremap <leader><Tab> :b#<cr>
 
+augroup filetype_markdown
+	autocmd!
+	autocmd FileType markdown setlocal tabstop=4
+	autocmd FileType markdown setlocal softtabstop=4
+	autocmd FileType markdown setlocal shiftwidth=4
+	autocmd FileType markdown setlocal expandtab
+augroup END
+
+augroup filetype_python
+	autocmd!
+	autocmd FileType python nnoremap <buffer> <leader>/ 0i# <esc>j0
+	autocmd FileType python iabbrev <buffer> true True
+	autocmd FileType python iabbrev <buffer> false False
+	autocmd FileType python iabbrev <buffer> testes <esc>:read $HOME/.config/nvim/snippets/unittest_snip.py<cr>jjeea
+augroup END
+
+augroup filetype_vim
+	autocmd!
+	autocmd FileType vim nnoremap <buffer> <leader>/ 0i" <esc>j0
+augroup END
+
 " Plugins
 
 syntax on

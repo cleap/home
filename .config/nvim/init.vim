@@ -129,7 +129,7 @@ augroup filetype_python
 	autocmd FileType python iabbrev <buffer> true True
 	autocmd FileType python iabbrev <buffer> false False
 	autocmd FileType python iabbrev <buffer> classic class :<cr>def __init__(self):<cr>pass<cr><esc>kkk$i
-	autocmd FileType python iabbrev <buffer> unittest <esc>:read $HOME/.config/nvim/snippets/unittest_snip.py<cr>jjeea
+	autocmd FileType python iabbrev <buffer> testes <esc>:read $HOME/.config/nvim/snippets/unittest_snip.py<cr>jjeea
 	autocmd FileType python iabbrev <buffer> class BOY YOU MUST BE OUT OF YOUR GODDAMN MIND
 augroup END
 
