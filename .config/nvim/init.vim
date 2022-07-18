@@ -92,7 +92,7 @@ set autoindent
 set timeoutlen=300 " http://stackoverflow.com/questions/2158516/delay-before-o-opens-a-new-line
 set encoding=utf-8
 set noshowmode
-" set nowrap
+set nowrap
 
 set undodir=~/.vimdid
 set undofile
@@ -106,7 +106,6 @@ set softtabstop=8
 set shiftwidth=8
 set noexpandtab
 
-" TODO: use single autocmd
 augroup filetype_markdown
 	autocmd!
 	autocmd FileType markdown setlocal tabstop=4
@@ -127,6 +126,8 @@ augroup END
 augroup filetype_python
 	autocmd!
 	autocmd FileType python nnoremap <buffer> <leader>/ 0i# <esc>j0
+	autocmd FileType python iabbrev <buffer> true True
+	autocmd FileType python iabbrev <buffer> false False
 	autocmd FileType python iabbrev <buffer> classic class :<cr>def __init__(self):<cr>pass<cr><esc>kkk$i
 	autocmd FileType python iabbrev <buffer> unittest <esc>:read $HOME/.config/nvim/snippets/unittest_snip.py<cr>jjeea
 	autocmd FileType python iabbrev <buffer> class BOY YOU MUST BE OUT OF YOUR GODDAMN MIND
@@ -141,6 +142,8 @@ augroup filetye_rust
 	autocmd!
 	autocmd FileType rust nnoremap <buffer> <leader>/ 0i// <esc>j0
 augroup END
+
+iabbrev <buffer> citen \textbf{CITATION NEEDED}
 
 set lazyredraw
 set relativenumber " show relative line numbers
@@ -164,6 +167,9 @@ nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " navigation bindings
+nnoremap <leader>v <c-w>v
+nnoremap <leader>w <c-w>w
+nnoremap <leader><Tab> :b#<cr>
 nnoremap H ^
 nnoremap L $
 nnoremap <leader>h <c-w>h
@@ -180,7 +186,6 @@ inoremap <Left>  <nop>
 inoremap <Right> <nop>
 
 iabbrev @@ cleapdev@gmail.com
-
 
 " ==============================================================================
 " ## PLUGINS
