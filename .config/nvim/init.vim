@@ -27,12 +27,12 @@ call plug#begin()
 	Plug 'scrooloose/nerdtree' " File system sidebar
 	Plug 'ryanoasis/vim-devicons' " Adds icons to nerdtree
 	" Plug 'airblade/vim-rooter' " Roots searching at project root
-	" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " Fuzzy finding goodness
+	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " Fuzzy finding goodness
 
 	" Semantic language support
-	Plug 'neoclide/coc.nvim', {'branch': 'release'} " language server
-	Plug 'rust-lang/rust.vim'
-	Plug 'habamax/vim-godot'
+" 	Plug 'neoclide/coc.nvim', {'branch': 'release'} " language server
+" 	Plug 'rust-lang/rust.vim'
+" 	Plug 'habamax/vim-godot'
 
 call plug#end()
 
@@ -220,6 +220,22 @@ endfunction
 " Use autocmd to force lightline update
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
+" ## Goyo Configuration
+function! s:goyo_enter()
+	set noshowmode
+	set noshowcmd
+	set signcolumn=no
+endfunction
+
+function! s:goyo_leave()
+	set showmode
+	set showcmd
+	set signcolumn=yes
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
 
 " ## NERDTree Configuration
 let g:NERDTreeShowHidden = 1
@@ -264,3 +280,6 @@ endfunction
 
 " ## Rust Configuration
 let g:rustfmt_autosave = 1
+
+" ## FZF Configuration
+nnoremap <leader>f :FZF<CR>
