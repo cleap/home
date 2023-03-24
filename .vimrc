@@ -7,12 +7,17 @@ let maplocalleader = "\\"
 call plug#begin()
 
 	" GUI enhancements
-	Plug 'sainnhe/everforest'
-	Plug 'itchyny/lightline.vim'
+" 	Plug 'sainnhe/everforest'
+	Plug 'joshdick/onedark.vim'
+" 	Plug 'itchyny/lightline.vim'
+	Plug 'vim-airline/vim-airline'
+	Plug 'vim-airline/vim-airline-themes'
 	Plug 'machakann/vim-highlightedyank'
+	Plug 'junegunn/goyo.vim'
 
 	Plug 'scrooloose/nerdtree'
 	Plug 'ryanoasis/vim-devicons'
+	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 call plug#end()
 
@@ -61,9 +66,18 @@ set list
 " Key bindings
 nnoremap <leader>- ddp
 nnoremap <leader>_ ddkP
+inoremap kjk <esc>
 
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" Tag bindings
+" * <leader>ctag for generating ctags
+" * <leader>t for jumping to a tag
+" * <leader>p to pop down the tag stack
+nnoremap <leader>uc :!~/ctags/bin/ctags -R .<cr>
+nnoremap <leader>t <c-]>
+nnoremap <leader>p :pop<cr>
 
 nnoremap <leader>v <c-w>v
 nnoremap H ^
@@ -96,11 +110,20 @@ augroup filetype_python
 	autocmd FileType python iabbrev <buffer> true True
 	autocmd FileType python iabbrev <buffer> false False
 	autocmd FileType python iabbrev <buffer> testes <esc>:read $HOME/.config/nvim/snippets/unittest_snip.py<cr>jjeea
+	autocmd FileType markdown setlocal tabstop=4
+	autocmd FileType markdown setlocal softtabstop=4
+	autocmd FileType markdown setlocal shiftwidth=4
+	autocmd FileType markdown setlocal expandtab
 augroup END
 
 augroup filetype_vim
 	autocmd!
 	autocmd FileType vim nnoremap <buffer> <leader>/ 0i" <esc>j0
+augroup END
+
+augroup filetype_bash
+	autocmd!
+	autocmd FileType sh nnoremap <buffer> <leader>/ 0i# <esc>j0
 augroup END
 
 " Plugins
@@ -114,14 +137,21 @@ endif
 set cursorline
 set background=dark
 
+" Just colorscheme things
 let g:everforest_background = 'medium'
 let g:everforest_better_performance = 1
-colorscheme everforest
+
+let g:onedark_hide_endofbuffer = 1
+let g:onedark_termcolors = 256
+let g:onedark_terminal_italics = 1
+colorscheme onedark
 
 set laststatus=2
 let g:lightline = {
-	\ 'colorscheme': 'everforest',
+	\ 'colorscheme': 'onedark',
 	\ }
+
+let g:airline_theme = 'onedark'
 
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeMinimalUI = 1
@@ -129,3 +159,6 @@ let g:NERDTreeIgnore = []
 let g:NERDTreeStatusline = ''
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 nnoremap <silent> <leader>b :NERDTreeToggle<CR>
+
+" FZF Configuration
+nnoremap <leader>f :FZF<CR>
