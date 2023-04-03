@@ -16,8 +16,11 @@ let mapleader = "\<Space>"
 call plug#begin()
 
 	" GUI enhancements
-	Plug 'sainnhe/everforest'
-	Plug 'itchyny/lightline.vim' " enhances the NORMAL/INSERT line thing
+" 	Plug 'sainnhe/everforest'
+	Plug 'joshdick/onedark.vim'
+	Plug 'vim-airline/vim-airline'
+	Plug 'vim-airline/vim-airline-themes'
+" 	Plug 'itchyny/lightline.vim' " enhances the NORMAL/INSERT line thing
 	Plug 'machakann/vim-highlightedyank' " highlights what you are yanking
 
 	" Writeroom
@@ -161,6 +164,8 @@ set list
 " move lines up and down
 nnoremap <leader>- ddp
 nnoremap <leader>_ ddkP
+inoremap kjk <esc>
+inoremap jfj <esc>
 
 " easy vimrc editing
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
@@ -200,25 +205,16 @@ set background=dark
 
 let g:everforest_background = 'medium'
 let g:everforest_better_performance = 1
-colorscheme everforest
 
-" ## Lightline Configuration
+let g:onedark_hide_endofbuffer = 1
+let g:onedark_termcolors = 256
+let g:onedark_terminal_italics = 1
+colorscheme onedark
+
+set laststatus=2
 let g:lightline = {
-	\ 'active': {
-	\	'left': [ [ 'mode', 'paste' ],
-	\		  [ 'cocstatus', 'readonly', 'filename', 'modified'] ]
-	\ },
-	\ 'component_function': {
-	\	'filename': 'LightlineFilename',
-	\	'cocstatus': 'coc#status'
-	\ },
-	\ 'colorscheme': 'everforest',
+	\ 'colorscheme': 'onedark',
 	\ }
-function! LightlineFilename()
-	return expand('%:t') !=# '' ? @% : '[No Name]'
-endfunction
-" Use autocmd to force lightline update
-autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
 " ## Goyo Configuration
 function! s:goyo_enter()
