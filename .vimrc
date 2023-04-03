@@ -67,6 +67,7 @@ set list
 nnoremap <leader>- ddp
 nnoremap <leader>_ ddkP
 inoremap kjk <esc>
+inoremap jfj <esc>
 
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
@@ -102,6 +103,14 @@ augroup filetype_markdown
 	autocmd FileType markdown setlocal softtabstop=4
 	autocmd FileType markdown setlocal shiftwidth=4
 	autocmd FileType markdown setlocal expandtab
+augroup END
+
+augroup filetype_yaml
+	autocmd!
+	autocmd Filetype yaml setlocal tabstop=2
+	autocmd FileType yaml setlocal softtabstop=2
+	autocmd FileType yaml setlocal shiftwidth=2
+	autocmd FileType yaml setlocal expandtab
 augroup END
 
 augroup filetype_python
