@@ -9,11 +9,15 @@ call plug#begin()
 	" GUI enhancements
 " 	Plug 'sainnhe/everforest'
 	Plug 'joshdick/onedark.vim'
+	Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 " 	Plug 'itchyny/lightline.vim'
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
 	Plug 'machakann/vim-highlightedyank'
 	Plug 'junegunn/goyo.vim'
+
+	Plug 'godlygeek/tabular'
+	Plug 'preservim/vim-markdown'
 
 	Plug 'scrooloose/nerdtree'
 	Plug 'ryanoasis/vim-devicons'
@@ -156,11 +160,20 @@ let g:onedark_terminal_italics = 1
 colorscheme onedark
 
 set laststatus=2
-let g:lightline = {
-	\ 'colorscheme': 'onedark',
-	\ }
-
+let g:lightline = { 'colorscheme': 'onedark' }
 let g:airline_theme = 'onedark'
+
+function! Lightify()
+	colorscheme catppuccin_latte
+	let g:airline_theme = 'catppuccin_latte'
+	set background=light
+endfunction
+
+function! Darkify()
+	colorscheme onedark
+	let g:airline_theme = 'onedark'
+	set background=dark
+endfunction
 
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeMinimalUI = 1
